@@ -1,0 +1,42 @@
+<div class="row">
+    <div class="col-12">
+        <form [formGroup]="insertForm"
+              (ngSubmit)="save()">
+        <label for="pageTitle">Title</label>       
+        <input type="text" class="form-control" id="pageTitle" placeholder="About Us" formControlName="title">
+        <br>
+        
+        <label for="description">Description</label>
+        <textarea id="description" class="form-control" name="description" placeholder="Add Page Description" maxlength="150" formControlName="description"></textarea>
+        <span class="text-danger"></span>
+        <div *ngIf="description.touched && description.errors"
+             class="errorMessage">
+            <span *ngIf="description.hasError('required')">Description is required.</span>         
+            <span *ngIf="description.hasError('maxlength')">Max 500 characters</span>
+        </div>
+        <br>
+        
+        <div class="form-group">
+            <label for="pageContent"></label>
+            <textarea id="pageContent" name="pageContent" placeholder="Add Page Content" formControlName="pageContent"></textarea>
+            <span class="text-danger"></span>            
+        </div>
+            <div *ngIf="pageContent.touched && pageContent.errors"  class="errorMessage">
+                <span *ngIf="pageContent.hasError('required')">Page Content Required.</span>
+            </div>
+        <br>
+        
+        <label for="isActive">Page Status: </label>
+        <select formControlName="isActive" id="isActive" class="form-control">
+            <option [value]="_selectedPage.isActive" disabled>Select Page Status</option>
+            <option  [ngValue]="true">Active</option>
+            <option  [ngValue]="false">Disabled</option>
+        </select>
+        <br>
+
+        <button type="submit" class="btn btn-danger btn-block">Save</button>
+        </form>
+    </div>    
+</div>
+
+

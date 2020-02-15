@@ -1,0 +1,35 @@
+<form [formGroup]="insertForm"
+      (ngSubmit)="save()">
+    <label for="title">Page Title:</label>
+    <input id="title"
+           type="text"
+           formControlName="title" class="form-control">
+    <div *ngIf="title.touched && title.errors"
+         class="errorMessage">
+        <span *ngIf="title.hasError('required')">Name is required.</span>
+        <span *ngIf="title.hasError('maxlength')">Only 50 characters allowed for Name.</span>
+    </div>
+    <br />
+
+    <label for="description">Description:</label>
+    <input id="description"
+           type="text"
+           step="0.01"
+           formControlName="description" class="form-control">
+    <div *ngIf="description.touched && description.errors"
+         class="errorMessage">
+        <span *ngIf="description.hasError('required')">Description is required.</span>
+    </div>
+    <br />
+
+    <label for="isActive">Stock Status: </label>
+    <select formControlName="isActive" id="isActive" class="form-control">
+        <option value="" disabled>Select Active Status</option>
+        <option  [ngValue]="true">Active</option>
+        <option  [ngValue]="false">Disabled</option>
+    </select>
+    <br />
+
+    <button type="submit"
+            [disabled]="insertForm.invalid" class="btn btn-danger btn-block">Save</button>
+</form>

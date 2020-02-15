@@ -42,7 +42,8 @@
               "src/bsb-theme/css/materialize.css",
               "src/bsb-theme/css/style.css",
               "src/bsb-theme/css/themes/all-themes.css",
-              "src/shared/core.less"
+              "src/shared/core.less",
+              "node_modules/summernote/dist/summernote.min.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
@@ -77,9 +78,10 @@
               "node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.spin.js",
               "node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.sweet-alert.js",
               "node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.moment.js",
+              "node_modules/summernote/dist/summernote.min.js",
               "src/bsb-theme/js/admin.js",
               "src/bsb-theme/js/demo.js",
-              "src/bsb-theme/js/jquery.validate.js"
+              "src/bsb-theme/js/jquery.validate.js"              
             ]
           },
           "configurations": {

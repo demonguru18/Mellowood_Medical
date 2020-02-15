@@ -23,6 +23,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { GestureConfig } from '@angular/material';
 
 import * as _ from 'lodash';
+import {CookieService} from "@node_modules/ngx-cookie-service";
 
 export function appInitializerFactory(injector: Injector,
     platformLocation: PlatformLocation) {
@@ -119,6 +120,7 @@ export function getCurrentLanguage(): string {
             useFactory: getCurrentLanguage
         },
         { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
+        CookieService
     ],
     bootstrap: [RootComponent]
 })

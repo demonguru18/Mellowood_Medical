@@ -53,7 +53,8 @@
     <br />
 
     <label for="ratings">Ratings:</label>
-    <select id="ratings"  formControlName="ratings" class="form-control">
+    <select id="ratings"
+            formControlName="ratings" class="form-control">
         <option  disabled [value]="_selectedProduct.ratings">{{_selectedProduct.ratings}}</option>
         <option  [ngValue]="1">1</option>
         <option  [ngValue]="2">2</option>

@@ -1,21 +1,26 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Observable} from "@node_modules/rxjs";
-import {Product} from "@shared/service-proxies/service-proxies";
+import {Page, Product} from "@shared/service-proxies/service-proxies";
 import {MatDialog, MatDialogRef, MatPaginator, MatTableDataSource} from "@node_modules/@angular/material";
 import {CreateProductComponent} from "@app/products/create-product/create-product.component";
 import {ProductsServiceService} from "@app/services/products-service.service";
 import {EditProductComponent} from "@app/products/edit-product/edit-product.component";
 import {PropertyReader} from "@app/interfaces/property-reader";
 import Swal from "sweetalert2";
-import {PageCreateComponent} from "@app/pages/page-create/page-create.component";
+import {CreatePageComponent} from "@app/dynamic/create-page/create-page.component";
 
 @Component({
-  selector: 'app-products',
-  templateUrl: './products.component.html',
-  styleUrls: ['./products.component.css']
+  selector: 'app-dynamic',
+  templateUrl: './dynamic.component.html',
+  styleUrls: ['./dynamic.component.css']
 })
-export class ProductsComponent implements OnInit, PropertyReader {
+export class DynamicComponent implements OnInit, PropertyReader {
 
+  selectedPage: Page;
+  Pages$: Observable<any>;
+  private pages: Page[];
+  
+  
   title: string = 'Products';
   selectedProduct: Product;
   Products$: Observable<any>;
@@ -145,39 +150,18 @@ export class ProductsComponent implements OnInit, PropertyReader {
     this.showCreateOrEditProductDialog(this.selectedProduct);
     
   };
+  
 
-  addPage() : void
-  {
-    this.showCreateOrEditPageDialog();
-  }
-
-  showCreateOrEditPageDialog(page?: any) : void
-  {
-    let createOrEditPageDialog;
-    if (page === undefined || page == null)
-    {
-      createOrEditPageDialog = this._dialog.open(PageCreateComponent);
-    }
-    else
-    {
-      createOrEditPageDialog = this._dialog.open(EditProductComponent, {data: page});
-    }
-
-    createOrEditPageDialog.afterClosed().subscribe(result => {
-
-    })
-  }
-
-  showCreateOrEditProductDialog(product?: any) : void
+  showCreateOrEditProductDialog(page?: any) : void
   {
     let createOrEditProductDialog;
-    if (product === undefined || product == null)
+    if (page === undefined || page == null)
     {
-      createOrEditProductDialog = this._dialog.open(CreateProductComponent);
+      createOrEditProductDialog = this._dialog.open(CreatePageComponent);
     }
     else
     {
-      createOrEditProductDialog = this._dialog.open(EditProductComponent, {data: product});
+      createOrEditProductDialog = this._dialog.open(EditProductComponent, {data: page});
     }
 
     createOrEditProductDialog.afterClosed().subscribe(result => {

@@ -1084,6 +1084,30 @@ namespace MellowoodMedical.Migrations
                     b.ToTable("AbpTenants");
                 });
 
+            modelBuilder.Entity("MellowoodMedical.Pages.Dto.PageTemplateDto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<string>("PageContent")
+                        .IsRequired();
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Pages");
+                });
+
             modelBuilder.Entity("MellowoodMedical.Products.Dto.ProductDto", b =>
                 {
                     b.Property<int>("Id")

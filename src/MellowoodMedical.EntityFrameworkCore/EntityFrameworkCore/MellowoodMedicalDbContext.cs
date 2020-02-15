@@ -3,6 +3,7 @@ using Abp.Zero.EntityFrameworkCore;
 using MellowoodMedical.Authorization.Roles;
 using MellowoodMedical.Authorization.Users;
 using MellowoodMedical.MultiTenancy;
+using MellowoodMedical.Pages.Dto;
 using MellowoodMedical.Products.Dto;
 
 namespace MellowoodMedical.EntityFrameworkCore
@@ -11,9 +12,12 @@ namespace MellowoodMedical.EntityFrameworkCore
     {
         /* Define a DbSet for each entity of the application */
         public virtual DbSet<ProductDto> Products { get; set; }
+        
+        public virtual DbSet<PageTemplateDto> Pages { get; set; }
         public MellowoodMedicalDbContext(DbContextOptions<MellowoodMedicalDbContext> options)
             : base(options)
         {
         }
     }
 }
+    

@@ -1,5 +1,5 @@
 using System.IO;
-﻿using System;
+ using System;
 using System.Linq;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
@@ -63,7 +63,6 @@ namespace MellowoodMedical.Web.Host.Startup
                         .AllowCredentials()
                 )
             );
-            
             services.AddDbContext<MellowoodMedicalDbContext>(options => options.UseSqlServer(_appConfiguration.GetConnectionString("Default")));
 
             // Swagger - Enable this line and the related lines in Configure method to enable swagger UI
@@ -96,6 +95,7 @@ namespace MellowoodMedical.Web.Host.Startup
             app.UseAbp(options => { options.UseAbpRequestLocalization = false; }); // Initializes ABP framework.
 
             app.UseCors(_defaultCorsPolicyName); // Enable CORS!
+            app.UseCors("MyPolicy");
 
 app.Use(async (context, next) =>                {                    await next();                    if (context.Response.StatusCode == 404                        && !Path.HasExtension(context.Request.Path.Value)                        && !context.Request.Path.Value.StartsWith("/api/services", StringComparison.InvariantCultureIgnoreCase))                    {                        context.Request.Path = "/index.html";                        await next();                    }                });
             app.UseStaticFiles();

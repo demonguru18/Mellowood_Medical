@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import {Observable, throwError} from "@node_modules/rxjs";
-import {Product} from "@shared/service-proxies/service-proxies";
+import {Page, Product} from "@shared/service-proxies/service-proxies";
 import {catchError, first, flatMap, shareReplay} from "@node_modules/rxjs/operators";
-import {HttpClient, HttpErrorResponse} from "@node_modules/@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpHeaders} from "@node_modules/@angular/common/http";
 import {PropertyReader} from "@app/interfaces/property-reader";
+import {CookieService} from "@node_modules/ngx-cookie-service";
 
 
 @Injectable({
@@ -15,11 +16,12 @@ export class ProductsServiceService {
   private baseUrlAddProduct: string = 'http://localhost:21021/api/Product/AddProduct';
   private baseUrlEditProduct: string = 'http://localhost:21021/api/Product/UpdateProduct';
   private baseUrlDeleteProduct: string = 'http://localhost:21021/api/Product/DeleteProduct';
+  private baseUrlAddPage: string = 'http://localhost:21021/api/Product/AddPage';
   component: PropertyReader;
 
   private product$: Observable<Product[]>;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private cookieService: CookieService) { }
 
   public registerComponent(comp: PropertyReader)
   {
@@ -67,8 +69,16 @@ export class ProductsServiceService {
   }
 
   insertProduct(newProduct: Product): Observable<Product> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json', "X-XSRF-TOKEN": this.cookieService.get("XSRF-TOKEN") });
+    
     return this.http
-        .post<Product>(this.baseUrlAddProduct, newProduct);
+        .post<Product>(this.baseUrlAddProduct, newProduct, { headers: headers });
+  }
+
+  insertPage(newPage: Page): Observable<Page> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json', "X-XSRF-TOKEN": this.cookieService.get("XSRF-TOKEN") });
+    return this.http
+        .post<Page>(this.baseUrlAddPage, newPage, { headers: headers });
   }
 
   //Method to handle error

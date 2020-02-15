@@ -2813,6 +2813,15 @@ export interface Product {
     action: string;
 }
 
+export interface Page {
+    id: number;
+    title: string;
+    description: string;
+    pageContent: string;  
+    isActive: boolean;
+    action: string;
+}
+
 export class TenantDto implements ITenantDto {
     tenancyName: string;
     name: string;

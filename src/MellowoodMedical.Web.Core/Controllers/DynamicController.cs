@@ -1,26 +1,59 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MellowoodMedical.EntityFrameworkCore;
 using MellowoodMedical.Pages.Dto;
 using MellowoodMedical.Products.Dto;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 
 namespace MellowoodMedical.Controllers
 {
     [Route("api/[controller]/[action]")]
-    public class ProductController  : MellowoodMedicalControllerBase
+    [EnableCors("localhost")]
+    public class DynamicController  : MellowoodMedicalControllerBase
     {
         private readonly MellowoodMedicalDbContext _context;
         
-        public ProductController(MellowoodMedicalDbContext context)
+        public DynamicController(MellowoodMedicalDbContext context)
         {
             _context = context;
         }
+        
+        [HttpPost("{id}")]
+        public async Task<IActionResult> GetMyPage([FromRoute] int id)
+        {
+            return Ok("Test");
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> AddPage([FromBody] PageTemplateDto model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(string.Join(",",
+                    ModelState.Values.Where(E => E.Errors.Count > 0)
+                        .SelectMany(e => e.Errors)
+                        .Select(e => e.ErrorMessage)
+                        .ToArray()));
+            }
+
+            try
+            {
+                await _context.Pages.AddAsync(model);
+                await _context.SaveChangesAsync();
+                return Ok(new JsonResult("Success"));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+            
+            return BadRequest(new JsonResult("Error"));
+        }
+
         
         [HttpGet]
         public async Task<IActionResult> GetAllProducts()
@@ -170,40 +203,5 @@ namespace MellowoodMedical.Controllers
             }
             return new JsonResult("Success");
         }
-        
-        /*Pages*/
-        [HttpPost]
-        public async Task<IActionResult> AddPage([FromBody] dynamic formData)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(string.Join(",",
-                    ModelState.Values.Where(E => E.Errors.Count > 0)
-                        .SelectMany(e => e.Errors)
-                        .Select(e => e.ErrorMessage)
-                        .ToArray()));
-            }
-
-            try
-            {
-                var pageData = formData.ToObject<Dictionary<string, object>>();
-                
-                var pageDto = new PageTemplateDto();
-                pageDto.Description = pageData["title"];
-                pageDto.Title = pageData["description"];
-                pageDto.IsActive = false;
-                pageDto.PageContent = pageData["pageContent"];;
-                await _context.Pages.AddAsync(pageDto);
-                await _context.SaveChangesAsync();
-                return Ok(new JsonResult("Success"));
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
-            
-            return BadRequest(new JsonResult("Error"));
-        }
-
     }
 }

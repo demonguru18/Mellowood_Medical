@@ -40,6 +40,14 @@ import { ResetPasswordDialogComponent } from './users/reset-password/reset-passw
 import { ProductsComponent } from './products/products.component';
 import { CreateProductComponent } from './products/create-product/create-product.component';
 import { EditProductComponent } from './products/edit-product/edit-product.component';
+import { PageListComponent } from './pages/page-list/page-list.component';
+import { PageCreateComponent } from './pages/page-create/page-create.component';
+import { PageEditComponent } from './pages/page-edit/page-edit.component';
+import {CookieService} from "@node_modules/ngx-cookie-service";
+import { PagesComponent } from './pages/pages.component';
+import {DynamicComponent} from "@app/dynamic/dynamic.component";
+import {CreatePageComponent} from "@app/dynamic/create-page/create-page.component";
+
 
 @NgModule({
   declarations: [
@@ -68,7 +76,14 @@ import { EditProductComponent } from './products/edit-product/edit-product.compo
     ResetPasswordDialogComponent,
     ProductsComponent,
     CreateProductComponent,
-    EditProductComponent
+    EditProductComponent,
+    PageListComponent,
+    PageCreateComponent,
+    PageEditComponent,    
+    PagesComponent,
+    DynamicComponent,
+    CreatePageComponent
+      
   ],
   imports: [
     CommonModule,
@@ -82,8 +97,11 @@ import { EditProductComponent } from './products/edit-product/edit-product.compo
     ServiceProxyModule,
     SharedModule,
     NgxPaginationModule
+    
   ],
-  providers: [],
+  providers: [
+    CookieService
+  ],
   entryComponents: [
     // tenants
     CreateTenantDialogComponent,
@@ -97,7 +115,12 @@ import { EditProductComponent } from './products/edit-product/edit-product.compo
     ResetPasswordDialogComponent,
     //products  
     CreateProductComponent,
-    EditProductComponent
+    EditProductComponent,
+      //pages
+    PageCreateComponent,
+    PageEditComponent, 
+    
+    CreatePageComponent  
   ]
 })
 export class AppModule {}
